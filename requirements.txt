@@ -8,3 +8,4 @@ aiofiles
 aiohttp
 google-cloud-firestore
 google-cloud-storage
+Wand

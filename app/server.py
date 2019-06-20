@@ -10,6 +10,7 @@ import logging
 from fastai import *
 from fastai.vision import *
 
+from wand.image import Image
 from google.cloud import firestore
 from google.cloud import storage
 
@@ -76,21 +77,16 @@ async def analyze(request):
     logging.info('*******!!!logging request!!!********')
     logging.info(request)
 
-    data = await request.form()
+    # data = await request.form()
     logging.info('*******!!!logging data!!!********')
-    logging.info(data)
+    # logging.info(data)
 
-    img_bytes = await (data['file'].read())
-    # logging.info('*******!!!logging img_bytes!!!********')
-    # logging.info(img_bytes)
-    img = open_image(BytesIO(img_bytes))
-
-    # file = request.files['pic']
-    # filename = file.filename
-    # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    # img_bytes = await (data['file'].read())
+    #
+    # img = open_image(BytesIO(img_bytes))
 
 
-    # prediction = learn.predict(filename)
+
     prediction = learn.predict(img)
     p1 = prediction[0]
     p2 = prediction[2].numpy().tolist()
@@ -111,14 +107,26 @@ async def analyze(request):
 @app.route('/classify' , methods=['GET'])
 async def classify(request):
     logging.info('*******classificaaa********')
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket("skinshit2.appspot.com")
+    blob = bucket.blob("vasc.png")
+
+    imagedata = blob.download_as_string()
+    newimage = Image(blob=imagedata)
+
+    prediction = learn.predict(newimage)
+    p1 = prediction[0]
+    p2 = prediction[2].numpy().tolist()
+    strp2 = ','.join(str(e) for e in p2)
+
     db = firestore.Client()
-    doc_ref = db.collection(u'users').document( )
+    doc_ref = db.collection(u'classificationResult').document( )
     doc_ref.set({
-        u'first': u'Omar',
-        u'last': u'Sayed',
+        u'result': str(p1),
+        u'conf': :strp2,
         u'born': 1996
     })
-    return JSONResponse({'result': "resss" })
+    return JSONResponse({'result':strp2 })
 
 
 
