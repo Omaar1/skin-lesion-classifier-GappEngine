@@ -10,7 +10,7 @@ import logging
 from fastai import *
 from fastai.vision import *
 
-from wand.image import Image
+
 from google.cloud import firestore
 from google.cloud import storage
 
@@ -112,9 +112,10 @@ async def classify(request):
     blob = bucket.blob("vasc.png")
 
     imagedata = blob.download_as_string()
-    newimage = Image(blob=imagedata)
+    img = open_image(BytesIO(img_bytes))
 
-    prediction = learn.predict(newimage)
+
+    prediction = learn.predict(img)
     p1 = prediction[0]
     p2 = prediction[2].numpy().tolist()
     strp2 = ','.join(str(e) for e in p2)
