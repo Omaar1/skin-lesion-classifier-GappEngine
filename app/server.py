@@ -107,7 +107,7 @@ async def classify(request):
     blob = bucket.blob("vasc.png")
 
     imagedata = blob.download_as_string()
-    img = open_image(BytesIO(img_bytes))
+    img = open_image(BytesIO(imagedata))
 
 
     prediction = learn.predict(img)
