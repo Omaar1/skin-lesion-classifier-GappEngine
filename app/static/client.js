@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
      xhr.onreadystatechange = function() {
        if (this.readyState == 4)
          console.log(xhr.responseText); /// ----4
-         el('classify-button').innerHTML = 'Classify ...'; /// ---2
+         el('classify-button').innerHTML = 'Classify'; /// ---2
 
      };
 

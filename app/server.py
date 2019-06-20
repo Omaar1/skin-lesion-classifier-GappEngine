@@ -14,7 +14,6 @@ from fastai.vision import *
 from google.cloud import firestore
 from google.cloud import storage
 
-
 classes = ['akiec', 'bcc', 'bkl', 'df', 'mel', 'nv', 'vasc']
 path = Path(__file__).parent
 
@@ -75,17 +74,13 @@ def index(request):
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
     logging.info('*******!!!logging request!!!********')
-    logging.info(request)
+    # logging.info(request)
 
-    # data = await request.form()
+    data = await request.form()
     logging.info('*******!!!logging data!!!********')
     # logging.info(data)
-
-    # img_bytes = await (data['file'].read())
-    #
-    # img = open_image(BytesIO(img_bytes))
-
-
+    img_bytes = await (data['file'].read())
+    img = open_image(BytesIO(img_bytes))
 
     prediction = learn.predict(img)
     p1 = prediction[0]
@@ -95,7 +90,7 @@ async def analyze(request):
 
     logging.info('*******writing to DB********')
     db = firestore.Client()
-    doc_ref = db.collection(u'result').document( )
+    doc_ref = db.collection(u'Web Results').document( )
     doc_ref.set({
             u'result': str(p1),
             u'confidence': strp2
@@ -106,7 +101,7 @@ async def analyze(request):
 
 @app.route('/classify' , methods=['GET'])
 async def classify(request):
-    logging.info('*******classificaaa********')
+    logging.info('*******classificaaation********')
     storage_client = storage.Client()
     bucket = storage_client.get_bucket("skinshit2.appspot.com")
     blob = bucket.blob("vasc.png")
@@ -121,7 +116,7 @@ async def classify(request):
     strp2 = ','.join(str(e) for e in p2)
 
     db = firestore.Client()
-    doc_ref = db.collection(u'classificationResult').document( )
+    doc_ref = db.collection(u'classification Result').document( )
     doc_ref.set({
         u'result': str(p1),
         u'conf': strp2,
