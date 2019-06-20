@@ -61,6 +61,7 @@ button.analyze-button {
     color: #ffffff;
 }
 button.classify-button {
+    margin-top: 0.5em;
     width: 200px;
     height: 40px;
     border: solid 1px #7052CB;
