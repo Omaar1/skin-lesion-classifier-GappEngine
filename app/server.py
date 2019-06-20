@@ -123,10 +123,9 @@ async def classify(request):
     doc_ref = db.collection(u'classificationResult').document( )
     doc_ref.set({
         u'result': str(p1),
-        u'conf': :strp2,
-        u'born': 1996
+        u'conf': strp2,
     })
-    return JSONResponse({'result':strp2 })
+    return JSONResponse({'result': str(p1) , 'conf':strp2 })
 
 
 
