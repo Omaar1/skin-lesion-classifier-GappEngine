@@ -77,8 +77,6 @@ async def analyze(request):
     # logging.info(request)
 
     data = await request.form()
-    logging.info('*******!!!logging data!!!********')
-    # logging.info(data)
     img_bytes = await (data['file'].read())
     img = open_image(BytesIO(img_bytes))
 
@@ -88,7 +86,6 @@ async def analyze(request):
     strp2 = ','.join(str(e) for e in p2)
 
 
-    logging.info('*******writing to DB********')
     db = firestore.Client()
     doc_ref = db.collection(u'Web Results').document( )
     doc_ref.set({
@@ -105,14 +102,21 @@ async def classify(request):
     storage_client = storage.Client()
     bucket = storage_client.get_bucket("skinshit2.appspot.com")
     blob = bucket.blob("vasc.png")
+    logging.info('*******blob********')
+    logging.info(blob)
 
     imagedata = blob.download_as_string()
     img = open_image(BytesIO(imagedata))
 
 
     prediction = learn.predict(img)
+
     p1 = prediction[0]
     p2 = prediction[2].numpy().tolist()
+
+    logging.info('******* prediction :: ********')
+    logging.info(str(p1))
+
     strp2 = ','.join(str(e) for e in p2)
 
     db = firestore.Client()
@@ -121,6 +125,7 @@ async def classify(request):
         u'result': str(p1),
         u'conf': strp2,
     })
+    logging.info('*******written to db :: ********')
     return JSONResponse({'result': str(p1) , 'conf':strp2 })
 
 
