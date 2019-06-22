@@ -103,15 +103,15 @@ async def classify(request):
     data = await request.form()
     logging.info(data)
 
+    # 
+    # logging.info('*******body********')
+    # body = await request.body()
+    # logging.info(body)
 
-    logging.info('*******body********')
-    body = await request.body()
-    logging.info(body)
 
-
-    logging.info('*******header********')
-    header = request.headers
-    logging.info(header)
+    # logging.info('*******header********')
+    # header = request.headers
+    # logging.info(header)
 
 
     storage_client = storage.Client()
