@@ -96,9 +96,24 @@ async def analyze(request):
 
 
 
-@app.route('/classify' , methods=['GET'])
+@app.route('/classify' , methods=['POST'])
 async def classify(request):
-    logging.info('*******classificaaation********')
+
+    logging.info('*******data********')
+    data = await request.form()
+    logging.info(data)
+
+
+    logging.info('*******body********')
+    body = await request.body()
+    logging.info(body)
+
+
+    logging.info('*******header********')
+    header = request.headers
+    logging.info(header)
+
+
     storage_client = storage.Client()
     bucket = storage_client.get_bucket("skinshit2.appspot.com")
     blob = bucket.blob("vasc.png")

@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
      //XMLHttpRequest
      var xhr = new XMLHttpRequest();
      var loc = window.location;
-     xhr.open('GET', `${loc.protocol}//${loc.hostname}:${loc.port}/classify`, true); // go to " /classify "
-     xhr.send(null);
+     xhr.open('POST', `${loc.protocol}//${loc.hostname}:${loc.port}/classify`, true); // go to " /classify "
+     xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+     xhr.send("FirstName=Chris&LastName=Minnick");
 
      xhr.onreadystatechange = function() {
        if (this.readyState == 4)
