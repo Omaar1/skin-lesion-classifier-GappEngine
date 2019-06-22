@@ -103,20 +103,17 @@ async def classify(request):
     data = await request.form()
     logging.info(data)
 
-    # 
-    # logging.info('*******body********')
-    # body = await request.body()
-    # logging.info(body)
+    filename = data['Name'].read()
+    fullName = filename+'.jpg'
+    logging.info('*******fname********')
+    logging.info(filename)
+    logging.info(fullName)
 
-
-    # logging.info('*******header********')
-    # header = request.headers
-    # logging.info(header)
 
 
     storage_client = storage.Client()
     bucket = storage_client.get_bucket("skinshit2.appspot.com")
-    blob = bucket.blob("vasc.png")
+    blob = bucket.blob(fullName)
     logging.info('*******blob********')
     logging.info(blob)
 
