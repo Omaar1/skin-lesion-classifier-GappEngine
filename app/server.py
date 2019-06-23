@@ -103,7 +103,7 @@ async def classify(request):
     data = await request.form()
     logging.info(data)
 
-    filename = data['Name'].read()
+    filename = data['Name']
     fullName = filename+'.jpg'
     logging.info('*******fname********')
     logging.info(filename)
