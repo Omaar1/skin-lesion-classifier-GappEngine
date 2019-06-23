@@ -104,16 +104,16 @@ async def classify(request):
     logging.info(data)
 
     filename = data['Name']
-    fullName = filename+'.jpg'
+    # fullName = filename+'.jpg'
     logging.info('*******fname********')
     logging.info(filename)
-    logging.info(fullName)
+    # logging.info(fullName)
 
 
 
     storage_client = storage.Client()
     bucket = storage_client.get_bucket("skinshit2.appspot.com")
-    blob = bucket.blob(fullName)
+    blob = bucket.blob(filename)
     logging.info('*******blob********')
     logging.info(blob)
 
